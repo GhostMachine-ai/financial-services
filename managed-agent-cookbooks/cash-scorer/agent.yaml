@@ -1,0 +1,30 @@
+# Cash Scorer — managed-agent cookbook
+
+name: cash-scorer
+model: claude-opus-4-7
+
+system:
+  file: ../../plugins/agent-plugins/cash-scorer/agents/cash-scorer.md
+  append: "You are running headless. Produce files in ./out/; do not assume an open Office document."
+
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read,  enabled: true }
+      - { name: grep,  enabled: true }
+      - { name: glob,  enabled: true }
+  - { type: mcp_toolset, mcp_server_name: factset,     default_config: { enabled: true } }
+  - { type: mcp_toolset, mcp_server_name: morningstar, default_config: { enabled: true } }
+
+mcp_servers:
+  - { type: url, name: factset,     url: "${FACTSET_MCP_URL}" }
+  - { type: url, name: morningstar, url: "${MORNINGSTAR_MCP_URL}" }
+
+skills:
+  - { from_plugin: ../../plugins/agent-plugins/cash-scorer }
+
+callable_agents:
+  - { manifest: ./subagents/financial-data-fetcher.yaml }
+  - { manifest: ./subagents/score-calculator.yaml }
+  - { manifest: ./subagents/scorecard-writer.yaml }   # only leaf with Write

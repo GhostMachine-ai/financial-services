@@ -1,0 +1,8 @@
+{
+  "name": "cash-scorer",
+  "version": "0.1.0",
+  "description": "Cash flow quality scoring — rates any public company 0–100 on five cash dimensions",
+  "author": {
+    "name": "Anthropic FSI"
+  }
+}

@@ -1,0 +1,6 @@
+[
+  { "event": "Score cash: AAPL TTM", "description": "Single ticker, trailing twelve months" },
+  { "event": "Score cash: coverage-list financials, TTM", "description": "Fan-out across a coverage list (orchestration layer iterates one session per ticker)" },
+  { "event": "Score cash: MSFT FY2025, include SBC adjustment", "description": "Fiscal year period with explicit SBC normalization flag" },
+  { "event": "Score cash: TSLA TTM, skip scorecard xlsx", "description": "Markdown narrative only; skip Excel output" }
+]

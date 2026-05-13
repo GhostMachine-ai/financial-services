@@ -1,0 +1,22 @@
+name: cash-scorecard-writer
+model: claude-opus-4-7
+system:
+  text: |
+    You are the ONLY worker with Write. Take the cash score JSON from the
+    score-calculator and produce two output files:
+      ./out/cash-score-<ticker>.xlsx   (six-tab Excel scorecard)
+      ./out/cash-score-<ticker>.md     (one-page Markdown narrative)
+    Never open external data sources or filings directly. All figures come
+    from the score JSON passed to you. Write both files or neither.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read,  enabled: true }
+      - { name: write, enabled: true }
+      - { name: edit,  enabled: true }
+mcp_servers: []
+skills:
+  - { path: ../../../plugins/agent-plugins/cash-scorer/skills/cash-scorecard }
+  - { path: ../../../plugins/vertical-plugins/financial-analysis/skills/xlsx-author }
+callable_agents: []
