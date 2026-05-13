@@ -90,6 +90,11 @@
       "description": "Audits pre-generated LP statements before distribution"
     },
     {
+      "name": "cash-scorer",
+      "source": "./plugins/agent-plugins/cash-scorer",
+      "description": "Cash flow quality scoring — rates any public company 0–100 on five cash dimensions"
+    },
+    {
       "name": "lseg",
       "source": "./plugins/partner-built/lseg",
       "description": "Price bonds, analyze yield curves, evaluate FX carry trades, value options, and build macro dashboards using LSEG financial data and analytics."

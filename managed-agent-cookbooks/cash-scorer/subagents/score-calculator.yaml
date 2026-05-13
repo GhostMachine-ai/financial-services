@@ -1,0 +1,41 @@
+name: cash-score-calculator
+model: claude-opus-4-7
+system:
+  text: |
+    You apply the five-dimension Cash Score rubric to validated financial data.
+    You receive the financial-data-fetcher JSON and produce a score JSON
+    covering all five dimensions and the composite score. You read trusted
+    structured data only — no external sources, no filings. Every score must
+    trace to a specific metric from the input JSON. Return only
+    schema-validated JSON; no free text.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+mcp_servers: []
+skills:
+  - { path: ../../../plugins/agent-plugins/cash-scorer/skills/cash-score-model }
+callable_agents: []
+output_schema:
+  type: object
+  required: [ticker, period, cash_score, grade, dimensions]
+  additionalProperties: false
+  properties:
+    ticker:     { type: string }
+    period:     { type: string }
+    cash_score: { type: integer, minimum: 0, maximum: 100 }
+    grade:      { type: string, enum: ["Elite", "Strong", "Average", "Weak", "Poor"] }
+    dimensions:
+      type: object
+      required: [cash_yield, cash_conversion, cash_efficiency, cash_stability, cash_deployment]
+      properties:
+        cash_yield:      { type: object }
+        cash_conversion: { type: object }
+        cash_efficiency: { type: object }
+        cash_stability:  { type: object }
+        cash_deployment: { type: object }
+    bull_cash_thesis: { type: string, maxLength: 512 }
+    bear_cash_thesis: { type: string, maxLength: 512 }
+    flags:            { type: array, items: { type: string } }
+    scoring_version:  { type: string }
